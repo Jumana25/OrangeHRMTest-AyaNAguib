@@ -5,32 +5,19 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SeleniumActions extends BaseWebDriver {
 
     private final int default_timeout_second = 45;
     private final WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ZERO);
 
-    public void highlightElement(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        String originalStyle = element.getAttribute("style");
-        js.executeScript("arguments[0].style.border='3px solid red';", element);
-
-        // Optionally add a delay to visualize the highlight
-        try {
-            Thread.sleep(100); // Highlight for 500ms
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        // Restore original style
-        js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, originalStyle);
-    }
-
-    private int getTimeout(int... timeoutInSecoonds){
+    public int getTimeout(int... timeoutInSecoonds) {
         return (timeoutInSecoonds.length > 0) ? timeoutInSecoonds[0] : default_timeout_second;
     }
 
@@ -52,8 +39,24 @@ public class SeleniumActions extends BaseWebDriver {
         waitForElementToBeClickable(element, timeoutInSeconds).click();
     }
 
-    public void writeInELement(By element, String text, int... timeoutInSeconds){
+    public void writeInELement(By element, String text, int... timeoutInSeconds) {
+        waitForElementToBeDisplayed(element, timeoutInSeconds).clear();
         waitForElementToBeClickable(element, timeoutInSeconds).sendKeys(text);
+    }
+
+    public void waitForElementToBeGone(By element, int... timeoutInSeconds) {
+        webDriverWait.withTimeout(Duration.ofSeconds(getTimeout(timeoutInSeconds))).until(ExpectedConditions.invisibilityOfElementLocated(element));
+    }
+
+    public String getPatternFromElementText(By element, String regexPattern, int... timeoutInSeconds) {
+        waitForElementToBePresent(element, getTimeout(timeoutInSeconds));
+        String matchedText = "";
+        Pattern pattern = Pattern.compile(regexPattern);
+        Matcher matcher = pattern.matcher(waitForElementToBeDisplayed(element, getTimeout(timeoutInSeconds)).getText());
+        if (matcher.find()) {
+            matchedText = matcher.group();
+        }
+        return matchedText;
     }
 
 }
