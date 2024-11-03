@@ -45,6 +45,13 @@
         </dependency>
 
         <!-- Cucumber Dependencies -->
+        <!-- Cucumber JUnit dependency -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.13.0</version> <!-- Replace with the latest version if needed -->
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>

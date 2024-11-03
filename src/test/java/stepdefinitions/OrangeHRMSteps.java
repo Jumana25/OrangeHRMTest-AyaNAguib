@@ -42,4 +42,27 @@ public class OrangeHRMSteps {
         System.out.println("Number of users found = " + numberOfUsersAfterCreate);
         Assert.assertEquals(Integer.parseInt(numberOfUsersAfterCreate), (Integer.parseInt(numberOfUsersBeforeCreate) + 1));
     }
+
+    @When("I search for user with username {string}")
+    public void iSearchForUserWithUsername(String username) {
+        dashboardPage.searchWithUsername(username);
+    }
+
+    @And("I delete user {string}")
+    public void iDeleteUser(String userName) {
+        dashboardPage.deleteUser(userName);
+    }
+
+    @And("Reset search")
+    public void resetSearch() {
+        dashboardPage.clickResetButton();
+    }
+
+    @Then("Original number of users will be displayed")
+    public void originalNumberOfUsersWillBeDisplayed() {
+        numberOfUsersAfterDelete = dashboardPage.getNumberOfExistingUsers();
+        Assert.assertEquals(numberOfUsersBeforeCreate, numberOfUsersAfterDelete);
+    }
+
+
 }
