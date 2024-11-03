@@ -11,7 +11,7 @@ public class BaseWebDriver {
 
     public static void initializeDriver() {
         if (driver == null) {
-            WebDriverManager.chromedriver().setup();
+            WebDriverManager.chromedriver().driverVersion("latest").setup();
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized"); // Open browser in maximized mode
