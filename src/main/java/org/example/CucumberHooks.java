@@ -8,19 +8,20 @@ import org.example.utils.ScreenShooter;
 
 public class CucumberHooks {
 
-    ScreenShooter screenShooter = new ScreenShooter(TestBase.getDriver());
+    private ScreenShooter screenShooter;
 
     @Before("@UI")
     public void beforeScenario(Scenario scenario) {
         System.out.println("Before UI Scenario: " + scenario.getName());
-        TestBase.initializeDriver();
+        BaseWebDriver.initializeDriver();
+        screenShooter = new ScreenShooter(BaseWebDriver.getDriver());
     }
 
     @After("@UI")
     public void afterScenario(Scenario scenario) {
         System.out.println("After UI Scenario: " + scenario.getName());
-        if (TestBase.getDriver() != null) {
-            TestBase.quitDriver();
+        if (BaseWebDriver.getDriver() != null) {
+            BaseWebDriver.quitDriver();
         }
     }
 

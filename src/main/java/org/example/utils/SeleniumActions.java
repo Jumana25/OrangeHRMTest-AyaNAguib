@@ -1,10 +1,10 @@
 package org.example.utils;
 
-import org.example.TestBase;
+import org.example.BaseWebDriver;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
-public class SeleniumActions extends TestBase {
+public class SeleniumActions extends BaseWebDriver {
 
     public void highlightElement(WebElement element) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -21,5 +21,7 @@ public class SeleniumActions extends TestBase {
         // Restore original style
         js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element, originalStyle);
     }
+
+
 
 }

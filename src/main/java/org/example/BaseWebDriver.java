@@ -1,19 +1,17 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.example.utils.ScreenShooter;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-public class TestBase {
+public class BaseWebDriver {
 
     protected static WebDriver driver;
 
     public static void initializeDriver() {
         if (driver == null) {
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized"); // Open browser in maximized mode
@@ -21,8 +19,11 @@ public class TestBase {
             options.addArguments("--disable-extensions"); // Disable extensions for stability
             options.addArguments("--incognito"); // Run in incognito mode
             options.addArguments("--remote-allow-origins=*"); // Avoid CORS issues
+
+            driver = new ChromeDriver(options);
         }
     }
+
 
     public static WebDriver getDriver() {
         return driver;
